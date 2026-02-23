@@ -26,6 +26,8 @@ html {
     scroll-behavior: smooth;
     overflow-x: auto;
     overflow-y: hidden;
+    /* Ensure in-page anchor links stop below fixed navbar */
+    scroll-padding-top: 70px; /* match navbar height */
 }
 
 /* Hide scrollbar but allow scrolling */
@@ -48,6 +50,8 @@ body {
         radial-gradient(circle at 80% 80%, rgba(255, 140, 66, 0.1) 0%, transparent 50%);
     overflow-x: auto;
     overflow-y: hidden;
+    /* Push main content below fixed navbar */
+    padding-top: 70px; /* match navbar height */
     height: 100vh;
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -1014,6 +1018,15 @@ section {
         overflow-y: hidden;
     }
     
+    /* Adjust for potentially taller navbar on mobile */
+    html {
+        scroll-padding-top: 80px;
+    }
+
+    body {
+        padding-top: 80px;
+    }
+    
     section {
         min-width: 100vw;
         height: 100vh;
@@ -1022,10 +1035,7 @@ section {
         overflow-y: auto;
     }
 
-    /* Hide Vanta backgrounds on mobile for better performance */
-    .vanta-bg {
-        display: none;
-    }
+    /* Keep Vanta backgrounds visible on mobile, rely on JS resize */
 
     /* Hero Section Mobile */
     .hero-container {
@@ -1238,6 +1248,38 @@ section {
         grid-template-columns: 1fr;
     }
 
+    /* Glassmorphism for cards on mobile */
+    .project-card,
+    .cert-card,
+    .skill-category,
+    .contact-item {
+        background: rgba(10, 10, 10, 0.55);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+    }
+
+    /* Glassmorphism for buttons on mobile */
+    .btn {
+        background: rgba(10, 10, 10, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+    }
+
+    .btn-primary {
+        background: rgba(255, 107, 53, 0.16);
+        color: var(--text-dark);
+        border-color: rgba(255, 107, 53, 0.7);
+    }
+
+    .btn-secondary {
+        background: rgba(0, 0, 0, 0.4);
+        color: var(--primary-color);
+        border-color: rgba(255, 107, 53, 0.7);
+    }
+
     /* Navigation Mobile */
     .nav-menu {
         position: fixed;
@@ -1316,23 +1358,7 @@ section {
 
 /* Section Navigation Indicators */
 .section-indicator {
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 10;
-    width: 50px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(255, 107, 53, 0.2);
-    border: 2px solid var(--primary-color);
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
-    animation: pulse 2s infinite;
+    display: none;
 }
 
 .section-indicator:hover {

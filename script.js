@@ -8,17 +8,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Vanta.js background effects
     let vantaEffects = {};
+    let lastIsMobile = null;
 
     function isMobile() {
         return window.innerWidth <= 768;
     }
 
     function initVantaEffects() {
-        // Don't initialize Vanta on mobile for better performance
-        if (isMobile()) {
-            return;
-        }
-
         // Home - Globe effect
         if (document.getElementById('vanta-home')) {
             vantaEffects.home = VANTA.GLOBE({
@@ -132,30 +128,45 @@ document.addEventListener('DOMContentLoaded', function() {
 
     }
 
-    // Initialize Vanta effects
-    initVantaEffects();
+    function destroyVantaEffects() {
+        Object.keys(vantaEffects).forEach(key => {
+            if (vantaEffects[key] && typeof vantaEffects[key].destroy === 'function') {
+                vantaEffects[key].destroy();
+            }
+        });
+        vantaEffects = {};
+    }
 
-    // Handle window resize - destroy Vanta on mobile, recreate on desktop
+    function handleVantaResize() {
+        const nowIsMobile = isMobile();
+
+        // On first run, set baseline and init once
+        if (lastIsMobile === null) {
+            lastIsMobile = nowIsMobile;
+            initVantaEffects();
+        } else if (nowIsMobile !== lastIsMobile) {
+            // Crossing breakpoint: destroy and re-init with new dimensions
+            destroyVantaEffects();
+            initVantaEffects();
+            lastIsMobile = nowIsMobile;
+        } else {
+            // Same mode, just resize existing effects
+            Object.keys(vantaEffects).forEach(key => {
+                if (vantaEffects[key] && typeof vantaEffects[key].resize === 'function') {
+                    vantaEffects[key].resize();
+                }
+            });
+        }
+    }
+
+    // Initialize Vanta effects with responsive resize handling
+    handleVantaResize();
+
+    // Handle window resize/orientation changes for responsiveness
     let resizeTimeout;
     window.addEventListener('resize', function() {
         clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(function() {
-            const wasMobile = Object.keys(vantaEffects).length === 0;
-            const isNowMobile = isMobile();
-            
-            if (wasMobile && !isNowMobile) {
-                // Switched from mobile to desktop - initialize effects
-                initVantaEffects();
-            } else if (!wasMobile && isNowMobile) {
-                // Switched from desktop to mobile - destroy effects
-                Object.keys(vantaEffects).forEach(key => {
-                    if (vantaEffects[key] && vantaEffects[key].destroy) {
-                        vantaEffects[key].destroy();
-                    }
-                });
-                vantaEffects = {};
-            }
-        }, 250);
+        resizeTimeout = setTimeout(handleVantaResize, 200);
     });
 
     // Initialize: Set animation delays for all sections
