@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kyle Camunias - IT Student Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.halo.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.cells.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.globe.min.js"></script>
+
+    <!-- Section-specific Vanta effects -->
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.dots.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.fog.min.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">KC</div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#certifications" class="nav-link">Certifications</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="sections-container">
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="vanta-bg" id="vanta-home"></div>
+        <div class="hero-container section-content-wrap">
+            <div class="hero-content">
+                <div class="hero-profile">
+                    <img src="images/prof.jpg" alt="Kyle Camunias" class="profile-img">
+                </div>
+                <h1 class="hero-title">Kyle Camunias</h1>
+                <h2 class="hero-subtitle">Information Technology Student</h2>
+                <p class="hero-description">
+                    Passionate IT student with experience in developing web-based systems, 
+                    specializing in backend development and system design using Python, Java, and MySQL.
+                </p>
+                <a href="#projects" class="btn btn-primary">View Projects</a>
+            </div>
+        </div>
+        <div class="section-indicator next-section" data-target="about">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="vanta-bg" id="vanta-about"></div>
+        <div class="container section-content-wrap">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>
+                        I am an Information Technology student with a strong foundation in web-based system development. 
+                        My technical expertise includes Python, Java, and MySQL, with a particular interest in backend 
+                        development and system architecture.
+                    </p>
+                    <p>
+                        Through academic projects and self-directed learning, I have developed practical skills in 
+                        creating efficient, scalable solutions for real-world problems. I am passionate about leveraging 
+                        technology to solve complex challenges and am eager to contribute to innovative development teams.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="section-indicator next-section" data-target="skills">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="skills">
+        <div class="vanta-bg" id="vanta-skills"></div>
+        <div class="container section-content-wrap">
+            <h2 class="section-title">Technical Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3>Programming Languages</h3>
+                    <div class="skill-list">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">PHP</span>
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">HTML/CSS</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>Databases</h3>
+                    <div class="skill-list">
+                        <span class="skill-tag">MySQL</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>Web Technologies</h3>
+                    <div class="skill-list">
+                        <span class="skill-tag">HTML5</span>
+                        <span class="skill-tag">CSS3</span>
+                        <span class="skill-tag">Bootstrap</span>
+                        <span class="skill-tag">React</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>Tools & Others</h3>
+                    <div class="skill-list">
+                        <span class="skill-tag">Git</span>
+                        <span class="skill-tag">VS Code</span>
+                        <span class="skill-tag">XAMPP</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section-indicator next-section" data-target="projects">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects">
+        <div class="vanta-bg" id="vanta-projects"></div>
+        <div class="container section-content-wrap">
+            <h2 class="section-title">Projects</h2>
+            <div class="projects-grid">
+                <!-- Project 1 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3>Petopia eCommerce System</h3>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-problem">
+                            <h4>Problem</h4>
+                            <p>Local pet owners and small pet shops needed a centralized platform to buy, sell, and manage pet products and services.</p>
+                        </div>
+                        <div class="project-solution">
+                            <h4>Solution</h4>
+                            <p>Designed and implemented an eCommerce system tailored for pet supplies, with inventory tracking, order management, and customer accounts.</p>
+                        </div>
+                        <div class="project-tech">
+                            <h4>Technologies</h4>
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">MySQL</span>
+                            <span class="tech-tag">HTML/CSS</span>
+                            <span class="tech-tag">JavaScript</span>
+                        </div>
+                        
+                        <div class="project-links">
+                            <a href="#" class="btn btn-secondary">GitHub</a>
+                            <button
+                                type="button"
+                                class="btn btn-secondary project-view-btn"
+                                data-images="images/petopia/pet1.jpg,images/petopia/pet2.jpg,images/petopia/pet3.jpg,images/petopia/pet4.jpg,images/petopia/pet5.jpg,images/petopia/pet6.jpg,images/petopia/pet7.jpg"
+                            >View</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3>Barangay Complaint Management System</h3>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-problem">
+                            <h4>Problem</h4>
+                            <p>Manual tracking of citizen complaints led to lost records, delayed responses, and lack of transparency in barangay operations.</p>
+                        </div>
+                        <div class="project-solution">
+                            <h4>Solution</h4>
+                            <p>Developed a web-based system to digitize complaint submission, tracking, and resolution processes for efficient barangay management.</p>
+                        </div>
+                        <div class="project-tech">
+                            <h4>Technologies</h4>
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">MySQL</span>
+                            <span class="tech-tag">HTML/CSS</span>
+                            <span class="tech-tag">JavaScript</span>
+                        </div>
+                        
+                        <div class="project-links">
+                            <a href="#" class="btn btn-secondary">GitHub</a>
+                            <button
+                                type="button"
+                                class="btn btn-secondary project-view-btn"
+                                data-images="images/barangaycare/bcr_index.jpg,images/barangaycare/bcr_login.jpg,images/barangaycare/bcr_signup.jpg,images/barangaycare/bcr_user.jpg,images/barangaycare/bcr_admin.jpg"
+                            >View</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3>Memorieo eCommerce System</h3>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-problem">
+                            <h4>Problem</h4>
+                            <p>Local businesses needed an affordable online platform to sell products and manage inventory without technical expertise.</p>
+                        </div>
+                        <div class="project-solution">
+                            <h4>Solution</h4>
+                            <p>Created a full-featured eCommerce platform with user-friendly interface for product management and online transactions.</p>
+                        </div>
+                        <div class="project-tech">
+                            <h4>Technologies</h4>
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">MySQL</span>
+                            <span class="tech-tag">HTML/CSS</span>
+                            <span class="tech-tag">JavaScript</span>
+                        </div>
+                        
+                        <div class="project-links">
+                            <a href="#" class="btn btn-secondary">GitHub</a>
+                            <button
+                                type="button"
+                                class="btn btn-secondary project-view-btn"
+                                data-images="images/memorieo/memo_index.jpg,images/memorieo/memo_buyerDashboard.jpg,images/memorieo/memo_signup.jpg,images/memorieo/memo_sellerDashboard.jpg,images/memorieo/memo_adminDashboard.jpg"
+                            >View</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 4 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3>Hair and Makeup Reservation System</h3>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-problem">
+                            <h4>Problem</h4>
+                            <p>Manual appointment scheduling caused double bookings, long wait times, and client dissatisfaction.</p>
+                        </div>
+                        <div class="project-solution">
+                            <h4>Solution</h4>
+                            <p>Developed an automated booking system with real-time slots and confirmation.</p>
+                        </div>
+                        <div class="project-tech">
+                            <h4>Technologies</h4>
+                            <span class="tech-tag">Java</span>
+                        </div>
+                        
+                        <div class="project-links">
+                            <a href="#" class="btn btn-secondary">GitHub</a>
+                            <button
+                                type="button"
+                                class="btn btn-secondary project-view-btn"
+                                data-images="images/hairMakeup/hmua1.png,images/hairMakeup/hmua2.png,images/hairMakeup/hmua3.png,images/hairMakeup/hmua4.png,images/hairMakeup/hmua5.png,images/hairMakeup/hmua6.png,images/hairMakeup/hmua7.png"
+                            >View</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section-indicator next-section" data-target="certifications">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Certifications Section -->
+    <section id="certifications" class="certifications">
+        <div class="vanta-bg" id="vanta-certifications"></div>
+        <div class="container section-content-wrap">
+            <h2 class="section-title">Certifications</h2>
+            <div class="certifications-grid">
+                <div class="cert-card" data-pdf="certificate/NoSql.pdf" role="button" tabindex="0">
+                    <div class="cert-icon">🏆</div>
+                    <h3>No Sql Database</h3>
+                    <p class="cert-issuer">Ethel Programming Computer Programming Services</p>
+                    <p class="cert-date">2026</p>
+                </div>
+                <div class="cert-card" data-pdf="certificate/python essentials.pdf" role="button" tabindex="0">
+                    <div class="cert-icon">🏆</div>
+                    <h3>Python Essentials 1</h3>
+                    <p class="cert-issuer">DICT-ITU DTC Initiative</p>
+                    <p class="cert-date">2025</p>
+                </div>
+                <div class="cert-card" data-pdf="certificate/modPRO.pdf" role="button" tabindex="0">
+                    <div class="cert-icon">🏆</div>
+                    <h3>Modular Programming</h3>
+                    <p class="cert-issuer">Ethel Programming Computer Programming Services</p>
+                    <p class="cert-date">2026</p>
+                </div>
+            </div>
+        </div>
+        <div class="section-indicator next-section" data-target="contact">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="vanta-bg" id="vanta-contact"></div>
+        <div class="container section-content-wrap">
+            <h2 class="section-title">Contact</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">📧</div>
+                        <div class="contact-details">
+                            <h3>Email</h3>
+                            <a href="mailto:camuniaskylesam97@gmail.com">camuniaskylesam97@gmail.com</a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">💼</div>
+                        <div class="contact-details">
+                            <h3>GitHub</h3>
+                            <a href="https://github.com/kylesam258" target="_blank">https://github.com/kylesam258</a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">🔗</div>
+                        <div class="contact-details">
+                            <h3>LinkedIn</h3>
+                            <a href="https://www.linkedin.com/in/camunias-kyle-sam-b-71aa373b2?utm_source=share&amp;utm_campaign=share_via&amp;utm_content=profile&amp;utm_medium=android_app" target="_blank">linkedin.com/in/camunias-kyle-sam-b-71aa373b2</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    </div>
+
+    <!-- Project Screenshots Modal -->
+    <div id="project-modal" class="project-modal" aria-hidden="true" role="dialog" aria-modal="true">
+        <div class="project-modal-overlay" data-modal-close></div>
+        <div class="project-modal-content">
+            <button class="project-modal-close" type="button" aria-label="Close project screenshots" data-modal-close>&times;</button>
+            <h3 class="project-modal-title"></h3>
+            <div class="project-modal-body">
+                <div class="project-modal-gallery">
+                    <!-- Images injected via JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fullscreen image lightbox for modal images -->
+    <div id="project-image-lightbox" class="project-image-lightbox" aria-hidden="true">
+        <img src="" alt="Project screenshot enlarged">
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
