@@ -1403,26 +1403,6 @@ section {
     }
 }
 
-/* Section Navigation Indicators */
-.section-indicator {
-    position: absolute;
-    top: 50%;
-    right: 30px;
-    transform: translateY(-50%);
-    width: 48px;
-    height: 48px;
-    border-radius: 999px;
-    border: 1px solid var(--border-color);
-    background-color: rgba(0, 0, 0, 0.7);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: var(--shadow-md);
-    z-index: 3;
-    animation: pulse 2s infinite;
-}
-
 @media (prefers-reduced-motion: reduce) {
     * {
         animation-duration: 0.01ms !important;
@@ -1432,44 +1412,7 @@ section {
     }
 }
 
-.section-indicator:hover {
-    background-color: rgba(255, 107, 53, 0.4);
-    transform: translateY(-50%) scale(1.1);
-    box-shadow: 0 0 20px rgba(255, 107, 53, 0.5);
-}
-
-.section-indicator svg {
-    width: 24px;
-    height: 24px;
-    color: var(--primary-color);
-    transition: transform 0.3s ease;
-}
-
-.section-indicator:hover svg {
-    transform: translateX(3px);
-}
-
-@keyframes pulse {
-    0%, 100% {
-        box-shadow: 0 0 0 0 rgba(255, 107, 53, 0.4);
-    }
-    50% {
-        box-shadow: 0 0 0 10px rgba(255, 107, 53, 0);
-    }
-}
-
 @media (max-width: 768px) {
-    .section-indicator {
-        width: 40px;
-        height: 40px;
-        right: 15px;
-    }
-
-    .section-indicator svg {
-        width: 20px;
-        height: 20px;
-    }
-
     .section-nav {
         bottom: 16px;
         padding: 0.4rem 0.65rem;

@@ -393,33 +393,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize on load
     updateActiveSection();
 
-    // Section indicator click handlers with View Transitions
-    const sectionIndicators = document.querySelectorAll('.section-indicator');
-    sectionIndicators.forEach(indicator => {
-        indicator.addEventListener('click', function() {
-            const targetId = this.getAttribute('data-target');
-            const targetSection = document.getElementById(targetId);
-            
-            if (targetSection) {
-                if (supportsViewTransitions()) {
-                    document.startViewTransition(() => {
-                        targetSection.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'nearest',
-                            inline: 'start'
-                        });
-                    });
-                } else {
-                    targetSection.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'nearest',
-                        inline: 'start'
-                    });
-                }
-            }
-        });
-    });
-
     // Section navigation button click handlers with View Transitions
     sectionNavButtons.forEach(button => {
         button.addEventListener('click', function() {
