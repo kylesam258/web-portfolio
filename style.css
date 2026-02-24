@@ -684,6 +684,23 @@ section.active .project-card {
     font-size: 0.7rem;
 }
 
+.project-role {
+    margin-bottom: 0.56rem;
+}
+
+.project-role h4 {
+    font-size: 0.532rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 0.224rem;
+}
+
+.project-role p {
+    color: var(--text-light);
+    line-height: 1.6;
+    font-size: 0.7rem;
+}
+
 .project-tech {
     margin-bottom: 0.56rem;
 }
