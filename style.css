@@ -162,6 +162,57 @@ body::-webkit-scrollbar {
     pointer-events: none;
 }
 
+.intro-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at top, rgba(0, 0, 0, 0.65) 0, rgba(0, 0, 0, 0.92) 55%);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    color: var(--text-dark);
+}
+
+.intro-inner {
+    text-align: center;
+    max-width: 420px;
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    border: none;
+}
+
+.intro-kicker {
+    font-size: 0.9rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+}
+
+.intro-name {
+    font-size: 2.4rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    margin-bottom: 0.75rem;
+    color: var(--text-dark);
+    text-shadow: 0 0 18px rgba(255, 107, 53, 0.6);
+}
+
+.intro-sub {
+    font-size: 0.95rem;
+    color: var(--text-light);
+    margin-bottom: 1.5rem;
+}
+
+.intro-hint {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
 .hero::before {
     content: '';
     position: absolute;
@@ -1218,6 +1269,11 @@ section {
 
     .hero-actions {
         justify-content: center;
+    }
+
+    .intro-inner {
+        max-width: 90%;
+        padding: 2rem 1.5rem;
     }
 
     /* Section Titles */

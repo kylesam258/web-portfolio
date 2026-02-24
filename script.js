@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const sectionNavButtons = document.querySelectorAll('.section-nav-btn');
     const heroProjectsBtn = document.querySelector('.hero-cta-projects');
     const heroAboutBtn = document.querySelector('.hero-cta-about');
+    const introOverlay = document.getElementById('intro-overlay');
+    const introName = introOverlay ? introOverlay.querySelector('.intro-name') : null;
     const body = document.body;
 
     const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -231,6 +233,60 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    function setupIntroOverlay() {
+        if (!introOverlay || !introName || !heroTitleElement || typeof gsap === 'undefined') {
+            return;
+        }
+
+        let revealed = false;
+
+        function revealHome() {
+            if (revealed) return;
+            revealed = true;
+
+            const heroRect = heroTitleElement.getBoundingClientRect();
+            const introRect = introName.getBoundingClientRect();
+
+            const scaleX = introRect.width / heroRect.width || 1;
+            const scaleY = introRect.height / heroRect.height || 1;
+            const scale = (scaleX + scaleY) / 2;
+
+            const dx = introRect.left - heroRect.left;
+            const dy = introRect.top - heroRect.top;
+
+            gsap.set(heroTitleElement, {
+                x: dx,
+                y: dy,
+                scale: scale,
+                opacity: 1
+            });
+
+            gsap.to(heroTitleElement, {
+                duration: 1.1,
+                x: 0,
+                y: 0,
+                scale: 1,
+                ease: 'power3.inOut'
+            });
+
+            gsap.to(introOverlay, {
+                duration: 0.8,
+                opacity: 0,
+                ease: 'power2.out',
+                onComplete() {
+                    introOverlay.style.display = 'none';
+                }
+            });
+        }
+
+        window.addEventListener('click', revealHome, { once: true });
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                revealHome();
+            }
+        });
+    }
+
     function playKineticTypography(section) {
         if (typeof gsap === 'undefined' || prefersReducedMotion) {
             return;
@@ -409,6 +465,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize kinetic typography
     initKineticTypography();
     initHeroNameInteractions();
+    setupIntroOverlay();
 
     // Initialize: Set animation delays for all sections
     sections.forEach(section => {
