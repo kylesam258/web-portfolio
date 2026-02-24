@@ -53,17 +53,21 @@ body {
     scrollbar-width: none;
 }
 
+.kt-word,
+.kt-char {
+    display: inline-block;
+}
+
 /* Hide scrollbar but allow scrolling */
 body::-webkit-scrollbar {
     display: none;
 }
 
 .sections-container {
-    display: flex;
-    width: fit-content;
+    position: relative;
+    width: 100vw;
     height: 100vh;
 }
-
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -148,21 +152,6 @@ body::-webkit-scrollbar {
     transition: 0.3s;
 }
 
-/* Hero Section */
-.hero {
-    padding: 120px 0 80px;
-    background: linear-gradient(135deg, var(--bg-darker) 0%, var(--bg-dark) 100%);
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    position: relative;
-    min-width: 100vw;
-    width: 100vw;
-    height: 100vh;
-    overflow-y: hidden;
-    overflow-x: hidden;
-}
-
 .vanta-bg {
     position: absolute;
     top: 0;
@@ -214,7 +203,21 @@ section.active .hero-content {
     color: var(--text-dark);
     margin-bottom: 0.8rem;
     line-height: 1.2;
-    text-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
+    --wght: 650;
+    --ca-x: 0px;
+    --ca-y: 0px;
+    font-variation-settings: "wght" var(--wght);
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    position: relative;
+    text-shadow:
+        calc(var(--ca-x) * -1) calc(var(--ca-y) * -1) 0 rgba(0, 255, 255, 0.55),
+        var(--ca-x) var(--ca-y) 0 rgba(255, 0, 255, 0.45),
+        0 0 20px rgba(255, 107, 53, 0.3);
+}
+
+.hero-title .kt-char {
+    will-change: transform;
 }
 
 .hero-subtitle {
@@ -356,17 +359,21 @@ section.active .hero-content {
 /* Section Styles */
 section {
     padding: 60px 0;
-    position: relative;
-    min-width: 100vw;
-    width: 100vw;
-    height: 100vh;
+    position: absolute;
+    inset: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
-    opacity: 1;
+    opacity: 0;
+    pointer-events: none;
     overflow-y: hidden;
     overflow-x: hidden;
+    transition: opacity 0.4s ease;
+}
+
+section.active {
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .section-content-wrap {
@@ -402,7 +409,7 @@ section.active .section-title {
 
 /* About Section */
 .about {
-    background-color: var(--bg-dark);
+    background-color: transparent;
 }
 
 .about-content {
@@ -427,7 +434,7 @@ section.active .about-content {
 
 /* Skills Section */
 .skills {
-    background-color: var(--bg-darker);
+    background-color: transparent;
 }
 
 .skills-grid {
@@ -520,10 +527,7 @@ section.active .skill-category {
 
 /* Projects Section */
 .projects {
-    background:
-        radial-gradient(circle at 0% 0%, rgba(255, 107, 53, 0.18) 0%, transparent 55%),
-        radial-gradient(circle at 100% 100%, rgba(255, 140, 66, 0.16) 0%, transparent 55%),
-        linear-gradient(135deg, #050505 0%, #111111 50%, #050505 100%);
+    background: transparent;
 }
 
 .projects-grid {
@@ -673,7 +677,7 @@ section.active .project-card {
 
 /* Certifications Section */
 .certifications {
-    background-color: var(--bg-darker);
+    background-color: transparent;
 }
 
 .certifications-grid {
@@ -765,7 +769,7 @@ section.active .cert-card {
 
 /* Contact Section */
 .contact {
-    background-color: var(--bg-dark);
+    background-color: transparent;
 }
 
 .contact-content {

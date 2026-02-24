@@ -7,6 +7,323 @@ document.addEventListener('DOMContentLoaded', function() {
     const sectionNavButtons = document.querySelectorAll('.section-nav-btn');
     const body = document.body;
 
+    const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const kineticSections = new WeakMap();
+    let heroTitleElement = null;
+    let heroTitleChars = [];
+
+    function splitText(element, { type = 'chars' } = {}) {
+        if (!element) return [];
+        const text = element.textContent;
+        if (!text || !text.trim()) return [];
+
+        const words = text.trim().split(/\s+/);
+        element.textContent = '';
+
+        const spans = [];
+
+        words.forEach((word, wordIndex) => {
+            const wordSpan = document.createElement('span');
+            wordSpan.classList.add('kt-word');
+
+            if (type === 'chars') {
+                Array.from(word).forEach(char => {
+                    const charSpan = document.createElement('span');
+                    charSpan.classList.add('kt-char');
+                    charSpan.textContent = char;
+                    wordSpan.appendChild(charSpan);
+                    spans.push(charSpan);
+                });
+            } else {
+                wordSpan.textContent = word;
+                spans.push(wordSpan);
+            }
+
+            element.appendChild(wordSpan);
+
+            if (wordIndex < words.length - 1) {
+                element.appendChild(document.createTextNode(' '));
+            }
+        });
+
+        return spans;
+    }
+
+    function initKineticTypography() {
+        if (typeof gsap === 'undefined' || prefersReducedMotion) {
+            return;
+        }
+
+        sections.forEach(section => {
+            const data = {};
+
+            if (section.id === 'home') {
+                const heroTitle = section.querySelector('.hero-title');
+                const heroSubtitle = section.querySelector('.hero-subtitle');
+                const heroDesc = section.querySelector('.hero-description');
+
+                data.heroTitleChars = splitText(heroTitle, { type: 'chars' });
+                data.heroSubtitleChars = splitText(heroSubtitle, { type: 'chars' });
+                data.heroDescWords = splitText(heroDesc, { type: 'words' });
+
+                heroTitleElement = heroTitle;
+                heroTitleChars = data.heroTitleChars;
+            } else {
+                const title = section.querySelector('.section-title');
+                if (title) {
+                    data.titleChars = splitText(title, { type: 'chars' });
+                }
+
+                if (section.id === 'about') {
+                    const aboutParas = section.querySelectorAll('.about-text p');
+                    data.bodyWords = [];
+                    aboutParas.forEach(p => {
+                        data.bodyWords = data.bodyWords.concat(splitText(p, { type: 'words' }));
+                    });
+                }
+
+                if (section.id === 'skills') {
+                    const headings = section.querySelectorAll('.skill-category h3');
+                    data.skillHeadingsChars = [];
+                    headings.forEach(h => {
+                        data.skillHeadingsChars = data.skillHeadingsChars.concat(splitText(h, { type: 'chars' }));
+                    });
+                }
+
+                if (section.id === 'projects') {
+                    const projectTitles = section.querySelectorAll('.project-header h3');
+                    data.projectTitleChars = [];
+                    projectTitles.forEach(h => {
+                        data.projectTitleChars = data.projectTitleChars.concat(splitText(h, { type: 'chars' }));
+                    });
+                }
+
+                if (section.id === 'certifications') {
+                    const certTitles = section.querySelectorAll('.cert-card h3');
+                    data.certTitleChars = [];
+                    certTitles.forEach(h => {
+                        data.certTitleChars = data.certTitleChars.concat(splitText(h, { type: 'chars' }));
+                    });
+                }
+
+                if (section.id === 'contact') {
+                    const contactHeadings = section.querySelectorAll('.contact-details h3');
+                    data.contactHeadingChars = [];
+                    contactHeadings.forEach(h => {
+                        data.contactHeadingChars = data.contactHeadingChars.concat(splitText(h, { type: 'chars' }));
+                    });
+                }
+            }
+
+            kineticSections.set(section, data);
+        });
+    }
+
+    function initHeroNameInteractions() {
+        if (typeof gsap === 'undefined' || prefersReducedMotion) {
+            return;
+        }
+
+        if (!heroTitleElement || !heroTitleChars.length) return;
+
+        gsap.set(heroTitleChars, {
+            transformOrigin: '50% 50%'
+        });
+
+        // Constant "liquid breathing" idle animation using variable font + chromatic aberration
+        const centerIndex = (heroTitleChars.length - 1) / 2;
+
+        gsap.to(heroTitleElement, {
+            duration: 3.2,
+            repeat: -1,
+            yoyo: true,
+            ease: 'sine.inOut',
+            '--wght': 760,
+            letterSpacing: '0.14em',
+            '--ca-x': '1.5px',
+            '--ca-y': '1px'
+        });
+
+        gsap.to(heroTitleChars, {
+            duration: 2.4,
+            repeat: -1,
+            yoyo: true,
+            ease: 'sine.inOut',
+            y: (i) => gsap.utils.mapRange(0, heroTitleChars.length - 1, -4, 4, i),
+            scaleY: 1.06,
+            stagger: {
+                each: 0.06,
+                from: 'center'
+            }
+        });
+
+        let scrollRaf = null;
+
+    function updateOnScroll() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
+            const windowHeight = window.innerHeight || 1;
+
+            let t = scrollTop / windowHeight;
+            t = Math.max(0, Math.min(1, t));
+
+            const intensity = t;
+
+            gsap.to(heroTitleChars, {
+                duration: 0.3,
+                ease: 'power3.out',
+                overwrite: 'auto',
+                skewX: i => gsap.utils.mapRange(
+                    0,
+                    heroTitleChars.length - 1,
+                    -10 * intensity,
+                    10 * intensity,
+                    i
+                ),
+                scaleX: 1 + 0.15 * intensity,
+                y: i => gsap.utils.mapRange(
+                    0,
+                    heroTitleChars.length - 1,
+                    -4 * intensity,
+                    4 * intensity,
+                    i
+                ),
+                x: i => {
+                    const center = (heroTitleChars.length - 1) / 2;
+                    return (i - center) * 2 * intensity;
+                }
+            });
+        }
+
+        function onScroll() {
+            if (scrollRaf !== null) return;
+            scrollRaf = requestAnimationFrame(() => {
+                scrollRaf = null;
+                updateOnScroll();
+            });
+        }
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+        updateOnScroll();
+
+        heroTitleElement.addEventListener('mouseenter', () => {
+            gsap.fromTo(
+                heroTitleChars,
+                {
+                    y: 0,
+                    scaleY: 1
+                },
+                {
+                    duration: 0.45,
+                    y: -10,
+                    scaleY: 1.25,
+                    ease: 'power2.out',
+                    stagger: {
+                        each: 0.035,
+                        from: 'center'
+                    },
+                    yoyo: true,
+                    repeat: 1,
+                    overwrite: 'auto'
+                }
+            );
+        });
+    }
+
+    function playKineticTypography(section) {
+        if (typeof gsap === 'undefined' || prefersReducedMotion) {
+            return;
+        }
+
+        if (!section || section.dataset.ktPlayed === 'true') return;
+
+        const data = kineticSections.get(section);
+        if (!data) return;
+
+        section.dataset.ktPlayed = 'true';
+
+        const tl = gsap.timeline({
+            defaults: {
+                ease: 'power3.out',
+                duration: 0.8
+            }
+        });
+
+        if (data.heroTitleChars && data.heroTitleChars.length) {
+            tl.from(data.heroTitleChars, {
+                opacity: 0,
+                y: 40,
+                stagger: 0.04
+            }, 0);
+        }
+
+        if (data.heroSubtitleChars && data.heroSubtitleChars.length) {
+            tl.from(data.heroSubtitleChars, {
+                opacity: 0,
+                y: 30,
+                stagger: 0.03
+            }, '-=0.4');
+        }
+
+        if (data.heroDescWords && data.heroDescWords.length) {
+            tl.from(data.heroDescWords, {
+                opacity: 0,
+                y: 20,
+                stagger: 0.02
+            }, '-=0.3');
+        }
+
+        if (data.titleChars && data.titleChars.length) {
+            tl.from(data.titleChars, {
+                opacity: 0,
+                y: 30,
+                stagger: 0.03
+            }, 0);
+        }
+
+        if (data.bodyWords && data.bodyWords.length) {
+            tl.from(data.bodyWords, {
+                opacity: 0,
+                y: 20,
+                stagger: 0.01
+            }, '-=0.4');
+        }
+
+        if (data.skillHeadingsChars && data.skillHeadingsChars.length) {
+            tl.from(data.skillHeadingsChars, {
+                opacity: 0,
+                y: 25,
+                rotateX: -90,
+                stagger: 0.02
+            }, '-=0.3');
+        }
+
+        if (data.projectTitleChars && data.projectTitleChars.length) {
+            tl.from(data.projectTitleChars, {
+                opacity: 0,
+                y: 40,
+                skewX: 10,
+                stagger: 0.015
+            }, 0);
+        }
+
+        if (data.certTitleChars && data.certTitleChars.length) {
+            tl.from(data.certTitleChars, {
+                opacity: 0,
+                y: 25,
+                scale: 0.8,
+                stagger: 0.03
+            }, 0);
+        }
+
+        if (data.contactHeadingChars && data.contactHeadingChars.length) {
+            tl.from(data.contactHeadingChars, {
+                opacity: 0,
+                y: 25,
+                stagger: 0.03
+            }, 0);
+        }
+    }
+
     // Vanta.js background effects
     let vantaEffects = {};
     let lastIsMobile = null;
@@ -16,122 +333,34 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function initVantaEffects() {
-        // Disable heavy Vanta effects on mobile for performance
-        if (isMobile()) {
+        // Respect reduced motion preference
+        if (prefersReducedMotion) {
             return;
         }
 
-        // Home - Globe effect
-        if (document.getElementById('vanta-home')) {
-            vantaEffects.home = VANTA.GLOBE({
-                el: '#vanta-home',
-                mouseControls: true,
-                touchControls: false,
-                gyroControls: false,
-                minHeight: 200.00,
-                minWidth: 200.00,
-                scale: 1.00,
-                scaleMobile: 0.50,
-                color: 0xff6b35,
-                color2: 0xff8c42,
-                backgroundColor: 0x0a0a0a,
-                size: 1.00
-            });
+        const container = document.getElementById('vanta-main');
+        if (!container || typeof VANTA === 'undefined' || typeof VANTA.GLOBE !== 'function') {
+            return;
         }
 
-        // About - Halo effect
-        if (document.getElementById('vanta-about')) {
-            vantaEffects.about = VANTA.HALO({
-                el: '#vanta-about',
-                mouseControls: true,
-                touchControls: false,
-                gyroControls: false,
-                minHeight: 200.00,
-                minWidth: 200.00,
-                scale: 1.00,
-                scaleMobile: 0.50,
-                baseColor: 0x0a0a0a,
-                backgroundColor: 0x050505,
-                amplitudeFactor: 1.20,
-                size: 1.20
-            });
-        }
+        const mobile = isMobile();
 
-        // Skills - Cells effect
-        if (document.getElementById('vanta-skills')) {
-            vantaEffects.skills = VANTA.CELLS({
-                el: '#vanta-skills',
-                mouseControls: true,
-                touchControls: false,
-                gyroControls: false,
-                minHeight: 200.00,
-                minWidth: 200.00,
-                scale: 1.00,
-                scaleMobile: 0.50,
-                color1: 0xff6b35,
-                color2: 0xff8c42,
-                backgroundColor: 0x0a0a0a,
-                size: 1.20,
-                speed: 1.20
-            });
-        }
+        const baseOptions = {
+            el: '#vanta-main',
+            mouseControls: !mobile,
+            touchControls: false,
+            gyroControls: false,
+            minHeight: 200.00,
+            minWidth: 200.00,
+            scale: mobile ? 1.0 : 1.0,
+            scaleMobile: mobile ? 0.8 : 0.5,
+            color: 0xff6b35,
+            color2: 0xff8c42,
+            backgroundColor: 0x0a0a0a,
+            size: mobile ? 0.8 : 1.0
+        };
 
-        // Projects - Net effect
-        if (document.getElementById('vanta-projects')) {
-            vantaEffects.projects = VANTA.NET({
-                el: '#vanta-projects',
-                mouseControls: true,
-                touchControls: false,
-                gyroControls: false,
-                minHeight: 200.00,
-                minWidth: 200.00,
-                scale: 1.00,
-                scaleMobile: 0.50,
-                color: 0xff6b35,
-                backgroundColor: 0x0a0a0a,
-                points: 15.00,
-                maxDistance: 30.00,
-                spacing: 20.00
-            });
-        }
-
-        // Certifications - Dots effect
-        if (document.getElementById('vanta-certifications')) {
-            vantaEffects.certifications = VANTA.DOTS({
-                el: '#vanta-certifications',
-                mouseControls: true,
-                touchControls: false,
-                gyroControls: false,
-                minHeight: 200.00,
-                minWidth: 200.00,
-                scale: 1.00,
-                scaleMobile: 0.50,
-                color: 0xff6b35,
-                color2: 0xff8c42,
-                size: 3.00,
-                spacing: 20.00
-            });
-        }
-
-        // Contact - Fog effect
-        if (document.getElementById('vanta-contact')) {
-            vantaEffects.contact = VANTA.FOG({
-                el: '#vanta-contact',
-                mouseControls: true,
-                touchControls: false,
-                gyroControls: false,
-                minHeight: 200.00,
-                minWidth: 200.00,
-                highlightColor: 0xff6b35,
-                midtoneColor: 0xff8c42,
-                lowlightColor: 0xffa500,
-                baseColor: 0x0a0a0a,
-                blurFactor: 0.47,
-                speed: 1.50,
-                zoom: 0.90
-            });
-        }
-
+        vantaEffects.main = VANTA.GLOBE(baseOptions);
     }
 
     function destroyVantaEffects() {
@@ -151,12 +380,12 @@ document.addEventListener('DOMContentLoaded', function() {
             lastIsMobile = nowIsMobile;
             initVantaEffects();
         } else if (nowIsMobile !== lastIsMobile) {
-            // Crossing breakpoint: destroy and re-init with new dimensions
+            // Crossing breakpoint: destroy and re-init with new dimensions/config
             destroyVantaEffects();
             initVantaEffects();
             lastIsMobile = nowIsMobile;
         } else {
-            // Same mode, just resize existing effects
+            // Same mode, just resize existing effects if available
             Object.keys(vantaEffects).forEach(key => {
                 if (vantaEffects[key] && typeof vantaEffects[key].resize === 'function') {
                     vantaEffects[key].resize();
@@ -175,36 +404,14 @@ document.addEventListener('DOMContentLoaded', function() {
         resizeTimeout = setTimeout(handleVantaResize, 200);
     });
 
+    // Initialize kinetic typography
+    initKineticTypography();
+    initHeroNameInteractions();
+
     // Initialize: Set animation delays for all sections
     sections.forEach(section => {
         setAnimationDelays(section);
     });
-
-    // Use Intersection Observer to trigger animations when sections come into view
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.3
-    };
-
-    const observer = new IntersectionObserver(function(entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('active');
-                updateActiveSection(entry.target);
-            }
-        });
-    }, observerOptions);
-
-    // Observe all sections
-    sections.forEach(section => {
-        observer.observe(section);
-    });
-
-    // Set first section as active immediately
-    if (sections.length > 0) {
-        sections[0].classList.add('active');
-    }
 
     // Toggle mobile menu (if navbar exists)
     if (navToggle && navMenu) {
@@ -245,28 +452,18 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Function to get current active section based on horizontal scroll
-    function getCurrentSection() {
-        const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
-        const windowWidth = window.innerWidth;
-        const scrollPosition = scrollLeft + windowWidth / 2;
+    // Section switching and navigation highlighting
+    function showSection(targetId) {
+        const targetSection = document.getElementById(targetId);
+        if (!targetSection) return;
 
-        let currentSection = sections[0];
         sections.forEach(section => {
-            const sectionLeft = section.offsetLeft;
-            const sectionWidth = section.offsetWidth;
-            if (scrollPosition >= sectionLeft && scrollPosition < sectionLeft + sectionWidth) {
-                currentSection = section;
-            }
+            section.classList.toggle('active', section === targetSection);
         });
 
-        return currentSection;
-    }
+        playKineticTypography(targetSection);
 
-    // Active navigation highlighting
-    function updateActiveSection(forcedSection) {
-        const currentSection = forcedSection || getCurrentSection();
-        const currentId = currentSection.getAttribute('id');
+        const currentId = targetId;
 
         // Update navigation links
         navLinks.forEach(link => {
@@ -283,137 +480,48 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Horizontal scroll event listener
-    let scrollTimeout;
-    window.addEventListener('scroll', function() {
-        clearTimeout(scrollTimeout);
-        scrollTimeout = setTimeout(updateActiveSection, 50);
-
-        // Add scroll effect to navbar (if it exists)
-        const navbar = document.querySelector('.navbar');
-        if (navbar) {
-            const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
-            if (scrollLeft > 50) {
-                navbar.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1)';
-            } else {
-                navbar.style.boxShadow = '0 1px 2px 0 rgba(0, 0, 0, 0.05)';
-            }
-        }
-    }, { passive: true });
+    // Set first section as active immediately
+    if (sections.length > 0) {
+        showSection(sections[0].id);
+    }
 
     // Check if View Transitions API is supported
     function supportsViewTransitions() {
         return 'startViewTransition' in document;
     }
 
-    // Smooth horizontal scrolling for navigation links with View Transitions
+    // Smooth view switching for navigation links with View Transitions
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
             const targetId = this.getAttribute('href').slice(1);
-            const targetSection = document.getElementById(targetId);
             
-            if (targetSection) {
+            if (targetId) {
                 if (supportsViewTransitions()) {
-                    // Use View Transitions API for smooth transitions
                     document.startViewTransition(() => {
-                        targetSection.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'nearest',
-                            inline: 'start'
-                        });
+                        showSection(targetId);
                     });
                 } else {
-                    // Fallback for browsers without View Transitions support
-                    targetSection.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'nearest',
-                        inline: 'start'
-                    });
+                    showSection(targetId);
                 }
             }
         });
     });
 
-    // Handle wheel events for horizontal scrolling (desktop only)
-    if (!isMobile()) {
-        let isScrolling = false;
-        window.addEventListener('wheel', function(e) {
-            if (isScrolling) return;
-            
-            // Check if scrolling vertically
-            if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-                e.preventDefault();
-                isScrolling = true;
-                
-                const scrollAmount = e.deltaY;
-                window.scrollBy({
-                    left: scrollAmount,
-                    behavior: 'auto'
-                });
-                
-                setTimeout(() => {
-                    isScrolling = false;
-                }, 100);
-            }
-        }, { passive: false });
-    }
-
-    // Touch/swipe support for mobile
-    let touchStartX = 0;
-    let touchEndX = 0;
-
-    document.addEventListener('touchstart', function(e) {
-        touchStartX = e.changedTouches[0].screenX;
-    }, { passive: true });
-
-    document.addEventListener('touchend', function(e) {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
-    }, { passive: true });
-
-    function handleSwipe() {
-        const swipeThreshold = 50;
-        const diff = touchStartX - touchEndX;
-        
-        if (Math.abs(diff) > swipeThreshold) {
-            const currentSection = getCurrentSection();
-            const currentIndex = Array.from(sections).indexOf(currentSection);
-            
-            if (diff > 0 && currentIndex < sections.length - 1) {
-                // Swipe left - go to next section
-                sections[currentIndex + 1].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
-            } else if (diff < 0 && currentIndex > 0) {
-                // Swipe right - go to previous section
-                sections[currentIndex - 1].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
-            }
-        }
-    }
-
-    // Initialize on load
-    updateActiveSection();
+    // No horizontal scroll or swipe navigation needed; handled via showSection
 
     // Section navigation button click handlers with View Transitions
     sectionNavButtons.forEach(button => {
         button.addEventListener('click', function() {
             const targetId = this.getAttribute('data-target');
-            const targetSection = document.getElementById(targetId);
-
-            if (targetSection) {
+            
+            if (targetId) {
                 if (supportsViewTransitions()) {
                     document.startViewTransition(() => {
-                        targetSection.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'nearest',
-                            inline: 'start'
-                        });
+                        showSection(targetId);
                     });
                 } else {
-                    targetSection.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'nearest',
-                        inline: 'start'
-                    });
+                    showSection(targetId);
                 }
             }
         });
