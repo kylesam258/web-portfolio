@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const navMenu = document.querySelector('.nav-menu');
     const navLinks = document.querySelectorAll('.nav-link');
     const sections = document.querySelectorAll('section');
+    const sectionNavButtons = document.querySelectorAll('.section-nav-btn');
     const body = document.body;
 
     // Vanta.js background effects
@@ -185,6 +186,7 @@ document.addEventListener('DOMContentLoaded', function() {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('active');
+                updateActiveSection(entry.target);
             }
         });
     }, observerOptions);
@@ -199,17 +201,21 @@ document.addEventListener('DOMContentLoaded', function() {
         sections[0].classList.add('active');
     }
 
-    // Toggle mobile menu
-    navToggle.addEventListener('click', function() {
-        navMenu.classList.toggle('active');
-    });
-
-    // Close mobile menu when clicking on a link
-    navLinks.forEach(link => {
-        link.addEventListener('click', function() {
-            navMenu.classList.remove('active');
+    // Toggle mobile menu (if navbar exists)
+    if (navToggle && navMenu) {
+        navToggle.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
         });
-    });
+    }
+
+    // Close mobile menu when clicking on a link (if navbar exists)
+    if (navMenu) {
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                navMenu.classList.remove('active');
+            });
+        });
+    }
 
     // Function to set animation delays for child elements
     function setAnimationDelays(section) {
@@ -253,8 +259,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Active navigation highlighting
-    function updateActiveSection() {
-        const currentSection = getCurrentSection();
+    function updateActiveSection(forcedSection) {
+        const currentSection = forcedSection || getCurrentSection();
         const currentId = currentSection.getAttribute('id');
 
         // Update navigation links
@@ -264,6 +270,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 link.classList.add('active');
             }
         });
+
+        // Update section navigation buttons
+        sectionNavButtons.forEach(button => {
+            const target = button.getAttribute('data-target');
+            button.classList.toggle('active', target === currentId);
+        });
     }
 
     // Horizontal scroll event listener
@@ -272,13 +284,15 @@ document.addEventListener('DOMContentLoaded', function() {
         clearTimeout(scrollTimeout);
         scrollTimeout = setTimeout(updateActiveSection, 50);
 
-        // Add scroll effect to navbar
+        // Add scroll effect to navbar (if it exists)
         const navbar = document.querySelector('.navbar');
-        const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
-        if (scrollLeft > 50) {
-            navbar.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1)';
-        } else {
-            navbar.style.boxShadow = '0 1px 2px 0 rgba(0, 0, 0, 0.05)';
+        if (navbar) {
+            const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+            if (scrollLeft > 50) {
+                navbar.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1)';
+            } else {
+                navbar.style.boxShadow = '0 1px 2px 0 rgba(0, 0, 0, 0.05)';
+            }
         }
     }, { passive: true });
 
@@ -379,6 +393,32 @@ document.addEventListener('DOMContentLoaded', function() {
             const targetId = this.getAttribute('data-target');
             const targetSection = document.getElementById(targetId);
             
+            if (targetSection) {
+                if (supportsViewTransitions()) {
+                    document.startViewTransition(() => {
+                        targetSection.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'nearest',
+                            inline: 'start'
+                        });
+                    });
+                } else {
+                    targetSection.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'nearest',
+                        inline: 'start'
+                    });
+                }
+            }
+        });
+    });
+
+    // Section navigation button click handlers with View Transitions
+    sectionNavButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const targetId = this.getAttribute('data-target');
+            const targetSection = document.getElementById(targetId);
+
             if (targetSection) {
                 if (supportsViewTransitions()) {
                     document.startViewTransition(() => {
