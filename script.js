@@ -16,6 +16,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function initVantaEffects() {
+        // Disable heavy Vanta effects on mobile for performance
+        if (isMobile()) {
+            return;
+        }
+
         // Home - Globe effect
         if (document.getElementById('vanta-home')) {
             vantaEffects.home = VANTA.GLOBE({
@@ -330,27 +335,29 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Handle wheel events for horizontal scrolling
-    let isScrolling = false;
-    window.addEventListener('wheel', function(e) {
-        if (isScrolling) return;
-        
-        // Check if scrolling vertically
-        if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-            e.preventDefault();
-            isScrolling = true;
+    // Handle wheel events for horizontal scrolling (desktop only)
+    if (!isMobile()) {
+        let isScrolling = false;
+        window.addEventListener('wheel', function(e) {
+            if (isScrolling) return;
             
-            const scrollAmount = e.deltaY;
-            window.scrollBy({
-                left: scrollAmount,
-                behavior: 'auto'
-            });
-            
-            setTimeout(() => {
-                isScrolling = false;
-            }, 100);
-        }
-    }, { passive: false });
+            // Check if scrolling vertically
+            if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+                e.preventDefault();
+                isScrolling = true;
+                
+                const scrollAmount = e.deltaY;
+                window.scrollBy({
+                    left: scrollAmount,
+                    behavior: 'auto'
+                });
+                
+                setTimeout(() => {
+                    isScrolling = false;
+                }, 100);
+            }
+        }, { passive: false });
+    }
 
     // Touch/swipe support for mobile
     let touchStartX = 0;
