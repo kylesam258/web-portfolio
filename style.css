@@ -1281,11 +1281,16 @@ section {
         grid-template-columns: 1fr;
     }
 
-    /* Reduce heavy entrance animations on mobile */
+    /* Reduce heavy entrance animations on mobile but keep content visible */
     .skill-category,
     .project-card,
     .cert-card,
-    .contact-item,
+    .contact-item {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
+
     .section-indicator {
         animation: none;
     }
