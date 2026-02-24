@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const navLinks = document.querySelectorAll('.nav-link');
     const sections = document.querySelectorAll('section');
     const sectionNavButtons = document.querySelectorAll('.section-nav-btn');
+    const heroProjectsBtn = document.querySelector('.hero-cta-projects');
+    const heroAboutBtn = document.querySelector('.hero-cta-about');
     const body = document.body;
 
     const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -526,6 +528,33 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    // Hero CTA buttons
+    if (heroProjectsBtn) {
+        heroProjectsBtn.addEventListener('click', function() {
+            const targetId = 'projects';
+            if (supportsViewTransitions()) {
+                document.startViewTransition(() => {
+                    showSection(targetId);
+                });
+            } else {
+                showSection(targetId);
+            }
+        });
+    }
+
+    if (heroAboutBtn) {
+        heroAboutBtn.addEventListener('click', function() {
+            const targetId = 'about';
+            if (supportsViewTransitions()) {
+                document.startViewTransition(() => {
+                    showSection(targetId);
+                });
+            } else {
+                showSection(targetId);
+            }
+        });
+    }
 
     // Micro-interactions for buttons (exclude modal view buttons from loading state)
     const buttons = document.querySelectorAll('.btn');

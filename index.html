@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kyle Camunias - IT Student Portfolio</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -35,7 +36,14 @@
                     Passionate IT student with experience in developing web-based systems, 
                     specializing in backend development and system design using Python, Java, and MySQL.
                 </p>
-                
+                <div class="hero-actions">
+                    <button type="button" class="btn btn-primary hero-cta-projects">View Projects</button>
+                    <button type="button" class="btn btn-secondary hero-cta-about">About Me</button>
+                </div>
+                <div class="section-footer-hint hero-footer-hint">
+                    <span class="hint-dot"></span>
+                    <span class="hint-text">Tap the tabs below to explore more</span>
+                </div>
             </div>
         </div>
     </section>
@@ -48,7 +56,7 @@
                 <div class="about-text">
                     <p>
                         I am an Information Technology student with a strong foundation in web-based system development. 
-                        My technical expertise includes Python, Java, and MySQL, with a particular interest in backend 
+                        My technical expertise includes Python, PHP, and MySQL, with a particular interest in backend 
                         development and system architecture.
                     </p>
                     <p>
@@ -56,6 +64,11 @@
                         creating efficient, scalable solutions for real-world problems. I am passionate about leveraging 
                         technology to solve complex challenges and am eager to contribute to innovative development teams.
                     </p>
+                </div>
+                <div class="about-quick-facts">
+                    <span class="fact-pill">Backend-focused</span>
+                    <span class="fact-pill">Web-based systems</span>
+                    <span class="fact-pill">Python • PHP • MySQL</span>
                 </div>
             </div>
         </div>
@@ -67,7 +80,13 @@
             <h2 class="section-title">Technical Skills</h2>
             <div class="skills-grid">
                 <div class="skill-category">
-                    <h3>Programming Languages</h3>
+                    <div class="skill-header">
+                        <div class="skill-icon"><i class="fa-solid fa-code"></i></div>
+                        <div class="skill-header-text">
+                            <h3>Programming Languages</h3>
+                            <p class="skill-subtitle">Core languages I code in</p>
+                        </div>
+                    </div>
                     <div class="skill-list">
                         <span class="skill-tag">Python</span>
                         <span class="skill-tag">PHP</span>
@@ -76,13 +95,25 @@
                     </div>
                 </div>
                 <div class="skill-category">
-                    <h3>Databases</h3>
+                    <div class="skill-header">
+                        <div class="skill-icon"><i class="fa-solid fa-database"></i></div>
+                        <div class="skill-header-text">
+                            <h3>Databases</h3>
+                            <p class="skill-subtitle">Where the data lives</p>
+                        </div>
+                    </div>
                     <div class="skill-list">
                         <span class="skill-tag">MySQL</span>
                     </div>
                 </div>
                 <div class="skill-category">
-                    <h3>Web Technologies</h3>
+                    <div class="skill-header">
+                        <div class="skill-icon"><i class="fa-solid fa-globe"></i></div>
+                        <div class="skill-header-text">
+                            <h3>Web Technologies</h3>
+                            <p class="skill-subtitle">Frontend stack & frameworks</p>
+                        </div>
+                    </div>
                     <div class="skill-list">
                         <span class="skill-tag">HTML5</span>
                         <span class="skill-tag">CSS3</span>
@@ -91,7 +122,13 @@
                     </div>
                 </div>
                 <div class="skill-category">
-                    <h3>Tools & Others</h3>
+                    <div class="skill-header">
+                        <div class="skill-icon"><i class="fa-solid fa-toolbox"></i></div>
+                        <div class="skill-header-text">
+                            <h3>Tools & Others</h3>
+                            <p class="skill-subtitle">Daily development environment</p>
+                        </div>
+                    </div>
                     <div class="skill-list">
                         <span class="skill-tag">Git</span>
                         <span class="skill-tag">VS Code</span>
@@ -273,26 +310,51 @@
             <div class="contact-content">
                 <div class="contact-info">
                     <div class="contact-item">
-                        <div class="contact-icon">📧</div>
+                        <div class="contact-icon"><i class="fa-solid fa-envelope"></i></div>
                         <div class="contact-details">
                             <h3>Email</h3>
                             <a href="mailto:camuniaskylesam97@gmail.com">camuniaskylesam97@gmail.com</a>
                         </div>
                     </div>
                     <div class="contact-item">
-                        <div class="contact-icon">💼</div>
+                        <div class="contact-icon"><i class="fa-brands fa-github"></i></div>
                         <div class="contact-details">
                             <h3>GitHub</h3>
                             <a href="https://github.com/kylesam258" target="_blank">https://github.com/kylesam258</a>
                         </div>
                     </div>
                     <div class="contact-item">
-                        <div class="contact-icon">🔗</div>
+                        <div class="contact-icon"><i class="fa-brands fa-linkedin-in"></i></div>
                         <div class="contact-details">
                             <h3>LinkedIn</h3>
                             <a href="https://www.linkedin.com/in/camunias-kyle-sam-b-71aa373b2?utm_source=share&amp;utm_campaign=share_via&amp;utm_content=profile&amp;utm_medium=android_app" target="_blank">linkedin.com/in/camunias-kyle-sam-b-71aa373b2</a>
                         </div>
                     </div>
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fa-brands fa-facebook-f"></i></div>
+                        <div class="contact-details">
+                            <h3>Facebook</h3>
+                            <a href="https://www.facebook.com/share/1DGfXVH8r6/" target="_blank">facebook.com/share/1DGfXVH8r6</a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fa-brands fa-instagram"></i></div>
+                        <div class="contact-details">
+                            <h3>Instagram</h3>
+                            <a href="https://www.instagram.com/k00019.0" target="_blank">@k00019.0</a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fa-brands fa-x-twitter"></i></div>
+                        <div class="contact-details">
+                            <h3>X</h3>
+                            <a href="https://x.com/kylesammm" target="_blank">@kylesammm</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-footer-hint">
+                    <span class="hint-dot"></span>
+                    <span class="hint-text">Tap the tabs below to view other sections</span>
                 </div>
             </div>
         </div>
