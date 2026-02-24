@@ -1389,7 +1389,7 @@ section {
 
     /* Certifications Section Mobile */
     .certifications-grid {
-        grid-template-columns: 1fr;
+        flex-direction: column;
         max-width: 100%;
         gap: 1rem;
         padding: 0 15px;
