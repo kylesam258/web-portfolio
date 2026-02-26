@@ -63,11 +63,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (section.id === 'home') {
                 const heroTitle = section.querySelector('.hero-title');
-                const heroSubtitle = section.querySelector('.hero-subtitle');
                 const heroDesc = section.querySelector('.hero-description');
 
                 data.heroTitleChars = splitText(heroTitle, { type: 'chars' });
-                data.heroSubtitleChars = splitText(heroSubtitle, { type: 'chars' });
                 data.heroDescWords = splitText(heroDesc, { type: 'words' });
 
                 heroTitleElement = heroTitle;
@@ -314,14 +312,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 0);
         }
 
-        if (data.heroSubtitleChars && data.heroSubtitleChars.length) {
-            tl.from(data.heroSubtitleChars, {
-                opacity: 0,
-                y: 30,
-                stagger: 0.03
-            }, '-=0.4');
-        }
-
         if (data.heroDescWords && data.heroDescWords.length) {
             tl.from(data.heroDescWords, {
                 opacity: 0,
@@ -462,10 +452,56 @@ document.addEventListener('DOMContentLoaded', function() {
         resizeTimeout = setTimeout(handleVantaResize, 200);
     });
 
+    function initTypewriter() {
+        const el = document.querySelector('.hero-subtitle-typewriter');
+        const cursor = document.querySelector('.hero-subtitle-cursor');
+        const fullText = 'Information Technology Student';
+        if (!el) return;
+
+        if (prefersReducedMotion) {
+            el.textContent = fullText;
+            if (cursor) cursor.style.visibility = 'hidden';
+            return;
+        }
+
+        let index = 0;
+        let isDeleting = false;
+        const typeSpeed = 90;
+        const deleteSpeed = 55;
+        const pauseAfterType = 2200;
+        const pauseAfterDelete = 400;
+
+        function tick() {
+            const current = el.textContent;
+            if (!isDeleting) {
+                if (index <= fullText.length) {
+                    el.textContent = fullText.slice(0, index);
+                    index++;
+                    setTimeout(tick, typeSpeed);
+                } else {
+                    isDeleting = true;
+                    setTimeout(tick, pauseAfterType);
+                }
+            } else {
+                if (index > 0) {
+                    index--;
+                    el.textContent = fullText.slice(0, index);
+                    setTimeout(tick, deleteSpeed);
+                } else {
+                    isDeleting = false;
+                    setTimeout(tick, pauseAfterDelete);
+                }
+            }
+        }
+
+        setTimeout(tick, 600);
+    }
+
     // Initialize kinetic typography
     initKineticTypography();
     initHeroNameInteractions();
     setupIntroOverlay();
+    initTypewriter();
 
     // Initialize: Set animation delays for all sections
     sections.forEach(section => {

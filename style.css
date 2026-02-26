@@ -279,6 +279,18 @@ section.active .hero-content {
     text-shadow: 0 0 10px rgba(255, 107, 53, 0.5);
 }
 
+.hero-subtitle-cursor {
+    display: inline-block;
+    color: var(--primary-color);
+    font-weight: 300;
+    animation: typewriter-cursor 0.9s step-end infinite;
+}
+
+@keyframes typewriter-cursor {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
 .hero-description {
     font-size: 0.95rem;
     color: var(--text-light);
