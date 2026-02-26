@@ -387,28 +387,48 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         const container = document.getElementById('vanta-main');
-        if (!container || typeof VANTA === 'undefined' || typeof VANTA.GLOBE !== 'function') {
+        if (!container || typeof VANTA === 'undefined') {
             return;
         }
 
         const mobile = isMobile();
 
-        const baseOptions = {
-            el: '#vanta-main',
-            mouseControls: !mobile,
-            touchControls: false,
-            gyroControls: false,
-            minHeight: 200.00,
-            minWidth: 200.00,
-            scale: mobile ? 1.0 : 1.0,
-            scaleMobile: mobile ? 0.8 : 0.5,
-            color: 0xff6b35,
-            color2: 0xff8c42,
-            backgroundColor: 0x0a0a0a,
-            size: mobile ? 0.8 : 1.0
-        };
-
-        vantaEffects.main = VANTA.GLOBE(baseOptions);
+        if (mobile) {
+            // Mobile: grid-only NET effect (no globe)
+            if (typeof VANTA.NET !== 'function') return;
+            vantaEffects.main = VANTA.NET({
+                el: '#vanta-main',
+                mouseControls: false,
+                touchControls: false,
+                gyroControls: false,
+                minHeight: 200.00,
+                minWidth: 200.00,
+                scale: 1.0,
+                scaleMobile: 1.0,
+                color: 0xff6b35,
+                backgroundColor: 0x0a0a0a,
+                points: 12.00,
+                spacing: 16.00,
+                showDots: true
+            });
+        } else {
+            // Desktop: GLOBE effect
+            if (typeof VANTA.GLOBE !== 'function') return;
+            vantaEffects.main = VANTA.GLOBE({
+                el: '#vanta-main',
+                mouseControls: true,
+                touchControls: false,
+                gyroControls: false,
+                minHeight: 200.00,
+                minWidth: 200.00,
+                scale: 1.0,
+                scaleMobile: 0.5,
+                color: 0xff6b35,
+                color2: 0xff8c42,
+                backgroundColor: 0x0a0a0a,
+                size: 1.0
+            });
+        }
     }
 
     function destroyVantaEffects() {
